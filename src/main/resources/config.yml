@@ -1,0 +1,7 @@
+# 作成したDiscord BOTのトークンキーと各メッセージチャンネルのIDを指定してください。
+# 例) TOKEN: gesnkbsgha.geraiihovnegrh-greaihv
+#     MESSAGE_SYNC_CHANNEL: 883456154786536455
+#     WHITELIST_CHANNEL: 987645589754668455
+TOKEN: mozi
+MESSAGE_SYNC_CHANNEL: suuzi
+WHITELIST_CHANNEL: suuzi

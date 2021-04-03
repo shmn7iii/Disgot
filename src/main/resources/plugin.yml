@@ -1,0 +1,7 @@
+name: Disgot
+version: ${project.version}
+main: net.shmn7iii.disgot.Disgot
+api-version: 1.16
+authors: [ shmn7iii ]
+description: Con sev and disc
+website: www.shmn7iii.net
