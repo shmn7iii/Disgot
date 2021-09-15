@@ -1,7 +1,6 @@
 package net.shmn7iii.disgot;
 
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.shmn7iii.disgot.discord.discmain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -13,20 +12,20 @@ public class MessageSync {
 
 
     public static void SyncMessage2disc(String name,String message) {
-        if(getTextChannel()!=null){
-            getTextChannel().sendMessage("**[Sync]** <" + name + "> " + message).queue();
+        if(getMessageSyncChannel()!=null){
+            getMessageSyncChannel().sendMessage("**[Sync]** <" + name + "> " + message).queue();
         }
     }
 
 
     public static void sendMessage2disc(String message){
-        if(getTextChannel()!=null){
-            getTextChannel().sendMessage(message).queue();
+        if(getMessageSyncChannel()!=null){
+            getMessageSyncChannel().sendMessage(message).queue();
         }
     }
 
 
-    public static TextChannel getTextChannel(){
+    public static TextChannel getMessageSyncChannel(){
         try{
             TextChannel textChannel = discmain.jda.getTextChannelById(Config.MESSAGE_SYNC_CHANNEL);
             if(textChannel.canTalk()) {

@@ -1,7 +1,9 @@
-package net.shmn7iii.disgot.spigot;
+package net.shmn7iii.disgot;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -13,25 +15,51 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.UUID;
 
-public class whitelist {
+public class Whitelist {
 
-    public static String addWhitelist(String name){
-        String uuid = getUUID(name);
+    /**
+     *
+     * @param channel リプライするチャンネル
+     * @param messageContent 発言者の発言内容(String型)
+     * @param rawMessage 発言者の発言(Message型)
+     */
+    public static void replyWhitelistResult(MessageChannel channel, String messageContent, Message rawMessage){
+        DGPlayer dgPlayer = new DGPlayer();
+        dgPlayer.setName(messageContent);
+
+        channel.sendMessage(addWhitelist(dgPlayer))
+                .reference(rawMessage)
+                .queue();
+    }
+
+    /**
+     *
+     * @param dgPlayer 追加するプレイヤーのDGPlayerインスタンス
+     * @return リプライ文言をここで生成，リターン
+     */
+    public static String addWhitelist(DGPlayer dgPlayer){
+        String name = dgPlayer.getName();
+        String uuid = dgPlayer.getUUID();
         if(uuid.equals("error")) return "Can't get UUID of Player:"+name+". Please check your Player name again.\nプレイヤー:"+name+"のUUIDが見つかりませんでした。プレイヤー名を再度確認してください。";
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
-
         if(player.isWhitelisted()){
             return "That Player is already exist in white list!\nそのプレイヤーはすでにホワイトリストに存在しています。";
         }
 
-        writeWhitelist(name,uuid);
+        writeWhitelist(dgPlayer);
 
         Bukkit.reloadWhitelist();
         return "Success! Player has added to white list!\n正常にホワイトリストへ追加しました。";
     }
 
-    public static void writeWhitelist(String name, String uuid){
+    /**
+     *
+     * @param dgPlayer 書き込む対象プレイヤー
+     */
+    public static void writeWhitelist(DGPlayer dgPlayer){
+        String name = dgPlayer.getName();
+        String uuid = dgPlayer.getUUID();
         try {
             BufferedReader file = new BufferedReader(new FileReader("./whitelist.json"));
             StringBuffer inputBuffer = new StringBuffer();
@@ -66,20 +94,5 @@ public class whitelist {
         } catch (Exception e) {
             System.out.println("Can't read whitelist.json.");
         }
-    }
-
-
-
-    public static String getUUID(String name) {
-        String uuid = "";
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
-            uuid = (((JsonObject)new JsonParser().parse(in)).get("id")).toString().replaceAll("\"", "");
-            uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
-            in.close();
-        } catch (Exception e) {
-            uuid = "error";
-        }
-        return uuid;
     }
 }

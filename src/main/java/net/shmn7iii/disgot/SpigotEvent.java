@@ -1,4 +1,4 @@
-package net.shmn7iii.disgot.spigot;
+package net.shmn7iii.disgot;
 
 import net.shmn7iii.disgot.Disgot;
 import net.shmn7iii.disgot.MessageSync;
@@ -10,9 +10,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class Event  implements Listener {
+public class SpigotEvent implements Listener {
     public static Disgot plugin;
-    public Event(Disgot instance) { plugin = instance; }
+    public SpigotEvent(Disgot instance) { plugin = instance; }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e){
